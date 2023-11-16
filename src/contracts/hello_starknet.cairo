@@ -1,6 +1,3 @@
-#[starknet::interface]
-trait MintERC20<TContractState> {}
-
 #[starknet::contract]
 mod MintableErc20Ownable {
     use starknet::ContractAddress;
