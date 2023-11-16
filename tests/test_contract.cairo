@@ -35,25 +35,7 @@ fn test_init() {
     let owner_balance = safe_dispatcher.balance_of(owner).unwrap();
     assert(owner_balance == 5000_u256, 'Balanace Init');
     assert(safe_dispatcher.get_name().unwrap() == 'TEST', 'Name Init');
-
-    spy.fetch_events();
-    let (from, event) = spy.events.at(0);
-
-    event_name_hash('ERC20').print();
-    event_name_hash('Transfer').print();
-    let mut k = 0;
-    loop {
-        if k >= event.keys.len() {
-            break;
-        }
-
-        let data = *event.keys.at(k);
-        data.print();
-
-        k += 1;
-    };
-
-    assert(event.data.len() == 4, 'There should be four data');
+    
     spy
         .assert_emitted(
             @array![
