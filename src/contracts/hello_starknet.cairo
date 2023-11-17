@@ -40,17 +40,30 @@ mod MintableErc20Ownable {
     impl MintImpl = mintable_comp::Mint<ContractState>;
 
 
-    #[constructor]
-    fn constructor(
-        ref self: ContractState,
-        name: felt252,
-        symbol: felt252,
-        decimals: u8,
-        initial_supply: u256,
-        recipient: ContractAddress,
-        owner: ContractAddress,
-    ) {
-        self.erc20_storage.init(name, symbol, decimals, initial_supply, recipient);
-        self.ownable_storage.init_ownable(owner);
+    #[abi(per_item)]
+    #[generate_trait]
+    impl ImplCtor of TraitCtor {
+        #[constructor]
+        fn constructor(
+            ref self: ContractState,
+            name: felt252,
+            symbol: felt252,
+            decimals: u8,
+            initial_supply: u256,
+            recipient: ContractAddress,
+            owner: ContractAddress,
+        ) {
+            self.ownable_storage.init_ownable(owner);
+            self.erc20_storage.init(name, symbol, decimals, initial_supply, recipient);
+        }
+    }
+
+
+    #[external(v0)]
+    #[generate_trait]
+    impl ImplGetSupply of StorageTrait {
+        fn get_total_supply_plus_1(self: @ContractState) -> u256 {
+            self.erc20_storage.get_total_supply() + 1
+        }
     }
 }
