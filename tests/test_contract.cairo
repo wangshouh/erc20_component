@@ -41,7 +41,7 @@ fn test_init() {
             @array![
                 (
                     contract_address,
-                    erc20_component::contracts::hello_starknet::MintableErc20Ownable::Event::ERC20(
+                    MintableErc20Ownable::Event::ERC20(
                         token::TransferEvent {
                             from: contract_address_const::<0>(), to: owner, value: 5000_u256
                         }
